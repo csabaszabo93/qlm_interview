@@ -15,6 +15,9 @@ public class SimpleAdvertisementSystem implements AdvertisementSystem {
 
     @Override
     public void showNextAdvertisement(int dayIndex) {
+        if (dayIndex < adComparator.getDayIndex()) {
+            throw new IllegalArgumentException("dayIndex can't decrease");
+        }
         Advertisement ad = adQueue.poll();
         if (ad == null) {
             System.out.println("All registered advertisements reached their max appearance");
@@ -43,6 +46,10 @@ public class SimpleAdvertisementSystem implements AdvertisementSystem {
 
         public void updateDayIndex(int dayIndex) {
             this.dayIndex = dayIndex;
+        }
+
+        public int getDayIndex() {
+            return dayIndex;
         }
 
         @Override

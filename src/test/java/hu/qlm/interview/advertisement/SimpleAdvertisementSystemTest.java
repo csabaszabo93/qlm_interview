@@ -1,9 +1,8 @@
 package hu.qlm.interview.advertisement;
 
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class SimpleAdvertisementSystemTest {
@@ -75,5 +74,13 @@ class SimpleAdvertisementSystemTest {
         verify(adSpy2, times(4)).showAdvertisement();
         verify(adSpy3, times(2)).showAdvertisement();
         verify(adSpy4, times(6)).showAdvertisement();
+    }
+
+    @Test
+    void testDayIndexDecreaseHandling() {
+        SimpleAdvertisement ad = new SimpleAdvertisement(5, 0.1, "1");
+        system.registerAdvertisement(ad);
+        system.showNextAdvertisement(3);
+        assertThrows(IllegalArgumentException.class, () -> system.showNextAdvertisement(2));
     }
 }
