@@ -1,6 +1,5 @@
 package hu.qlm.interview.advertisement;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -31,7 +30,7 @@ public class SimpleAdvertisementSystem implements AdvertisementSystem {
         }
         dailyAppearances += 1;
         nextAd.getAllAppearences().put(dayIndex, dailyAppearances);
-        if (dailyAppearances < nextAd.getMaxAppearance()) {
+        if (nextAd.lastAppearence(dayIndex, dayIndex) < nextAd.getMaxAppearance()) {
             adQueue.add(new AdvertisementContainer(nextAd, dayIndex));
         }
     }
@@ -42,7 +41,6 @@ public class SimpleAdvertisementSystem implements AdvertisementSystem {
     }
 
     private static final class AdvertisementContainer implements Comparable<AdvertisementContainer> {
-        private final LocalDateTime timeOfCreation = LocalDateTime.now();
         private final Advertisement advertisement;
         private final int dayIndex;
 
@@ -57,18 +55,18 @@ public class SimpleAdvertisementSystem implements AdvertisementSystem {
 
         @Override
         public int compareTo(AdvertisementContainer other) {
-            double thisAppearances = this.advertisement.lastAppearence(0, dayIndex + 1);
-            double otherAppearances = other.advertisement.lastAppearence(0, dayIndex + 1);
+            double thisAppearances = this.advertisement.lastAppearence(dayIndex, dayIndex);
+            double otherAppearances = other.advertisement.lastAppearence(dayIndex, dayIndex);
             if (otherAppearances == 0 && thisAppearances == 0) {
-                return -1 * Double.compare(this.advertisement.getWeight(), other.advertisement.getWeight());
+                return Double.compare(other.advertisement.getWeight(), this.advertisement.getWeight());
             } else if (otherAppearances == 0) {
-                return this.timeOfCreation.compareTo(other.timeOfCreation);
+                return 1;
             }
             double appearanceRatio = thisAppearances / otherAppearances;
             double weightRatio = this.advertisement.getWeight() / other.advertisement.getWeight();
-            int compared = Double.compare(weightRatio, appearanceRatio);
+            int compared = Double.compare(appearanceRatio, weightRatio);
             if (compared == 0) {
-                return this.timeOfCreation.compareTo(other.timeOfCreation);
+                return 1;
             }
             return compared;
         }

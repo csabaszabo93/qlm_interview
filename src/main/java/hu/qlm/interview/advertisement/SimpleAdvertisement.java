@@ -33,7 +33,8 @@ public class SimpleAdvertisement implements Advertisement {
 
     @Override
     public int lastAppearence(int dayIndex, int numberOfDays) {
-        return IntStream.range(dayIndex, dayIndex + numberOfDays)
+        int startIdx = numberOfDays > dayIndex ? 0 : dayIndex - numberOfDays;
+        return IntStream.rangeClosed(startIdx, dayIndex)
                 .map(idx -> appearances.getOrDefault(idx, 0))
                 .sum();
     }
