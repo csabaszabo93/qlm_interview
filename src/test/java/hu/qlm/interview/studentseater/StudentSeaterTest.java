@@ -1,6 +1,5 @@
-package hu.qlm.interview;
+package hu.qlm.interview.studentseater;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

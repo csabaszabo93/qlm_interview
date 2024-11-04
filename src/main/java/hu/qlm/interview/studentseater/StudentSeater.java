@@ -1,4 +1,4 @@
-package hu.qlm.interview;
+package hu.qlm.interview.studentseater;
 
 import java.util.Arrays;
 import java.util.HashMap;
